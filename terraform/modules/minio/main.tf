@@ -7,6 +7,8 @@ resource "helm_release" "minio" {
 
   values = [
     <<-EOT
+    image:
+      tag: RELEASE.2025-06-13T11-33-47Z
     replicas: 1
     mode: standalone
     rootUser: ${var.root_user}

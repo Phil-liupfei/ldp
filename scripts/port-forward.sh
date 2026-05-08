@@ -20,7 +20,7 @@ fi
 case "$SERVICE" in
     airflow)
         echo "Port forwarding Airflow (http://localhost:8080)..."
-        kubectl port-forward -n ldp svc/airflow-webserver 8080:8080
+        kubectl port-forward -n ldp svc/airflow-api-server 8080:8080
         ;;
     minio)
         echo "Port forwarding MinIO Console (http://localhost:9001)..."
@@ -28,7 +28,7 @@ case "$SERVICE" in
         ;;
     spark)
         echo "Port forwarding Spark Master UI (http://localhost:8080)..."
-        kubectl port-forward -n ldp svc/spark-master-svc 8080:8080
+        kubectl port-forward -n ldp svc/spark-master 8080:8080
         ;;
     jupyter)
         echo "Port forwarding Jupyter (http://localhost:8888)..."

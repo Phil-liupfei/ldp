@@ -29,7 +29,7 @@ resource "kubernetes_deployment_v1" "prometheus" {
 
         container {
           name  = "prometheus"
-          image = "prom/prometheus:v2.47.0"
+          image = "prom/prometheus:v3.2.1"
 
           port {
             container_port = 9090
@@ -223,7 +223,7 @@ resource "kubernetes_deployment_v1" "grafana" {
 
         container {
           name  = "grafana"
-          image = "grafana/grafana:10.1.0"
+          image = "grafana/grafana:11.6.0"
 
           port {
             container_port = 3000

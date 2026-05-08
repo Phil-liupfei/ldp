@@ -161,4 +161,5 @@ build/
 
 # Local development
 local/
-scratch/
+scratch/kubectl
+minikube-linux-amd64
