@@ -27,13 +27,17 @@ help:
 	@echo "  make import-dashboards - Import Grafana dashboards"
 	@echo ""
 	@echo "Port Forwarding:"
-	@echo "  make airflow-forward   - Forward Airflow UI (localhost:8080)"
-	@echo "  make minio-forward     - Forward MinIO Console (localhost:9001)"
-	@echo "  make spark-forward     - Forward Spark UI (localhost:8080)"
-	@echo "  make jupyter-forward   - Forward Jupyter (localhost:8888)"
-	@echo "  make postgres-forward  - Forward PostgreSQL (localhost:5432)"
-	@echo "  make grafana-forward   - Forward Grafana (localhost:3000)"
+	@echo "  make airflow-forward    - Forward Airflow UI (localhost:8080)"
+	@echo "  make minio-forward      - Forward MinIO Console (localhost:9001)"
+	@echo "  make minio-api-forward  - Forward MinIO S3 API (localhost:9000)"
+	@echo "  make spark-forward      - Forward Spark UI (localhost:8080)"
+	@echo "  make jupyter-forward    - Forward Jupyter (localhost:8888)"
+	@echo "  make postgres-forward   - Forward PostgreSQL (localhost:5432)"
+	@echo "  make grafana-forward    - Forward Grafana (localhost:3000)"
 	@echo "  make prometheus-forward - Forward Prometheus (localhost:9090)"
+	@echo ""
+	@echo "Local Development:"
+	@echo "  make setup-local-jupyter - Setup local Jupyter + PySpark in WSL"
 	@echo ""
 	@echo "Testing:"
 	@echo "  make test        - Run all tests"
@@ -68,7 +72,7 @@ init-minio:
 	@./scripts/init-minio.sh
 
 logs:
-	@kubectl logs -n ldp --all-containers=true --tail=100 -l app.kubernetes.io/instance=airflow
+	@kubectl logs -n ldp --all-containers=true --tail=100 -l tier=airflow
 
 pods:
 	@kubectl get pods -n ldp
@@ -85,6 +89,9 @@ airflow-forward:
 
 minio-forward:
 	@./scripts/port-forward.sh minio
+
+minio-api-forward:
+	@./scripts/port-forward.sh minio-api
 
 spark-forward:
 	@./scripts/port-forward.sh spark
@@ -117,7 +124,7 @@ events:
 	@kubectl get events -n ldp --sort-by='.lastTimestamp' | tail -30
 
 logs-airflow:
-	@kubectl logs -n ldp -l component=webserver --tail=100 -f
+	@kubectl logs -n ldp -l component=api-server --tail=100 -f
 
 logs-scheduler:
 	@kubectl logs -n ldp -l component=scheduler --tail=100 -f
@@ -184,6 +191,10 @@ build-jupyter:
 	@docker build -t ldp-jupyter:latest -f docker/jupyter/Dockerfile .
 
 build-all: build-airflow build-spark build-jupyter
+
+# Local Development
+setup-local-jupyter:
+	@./scripts/setup-local-jupyter.sh
 
 # Clean local resources
 clean-data:

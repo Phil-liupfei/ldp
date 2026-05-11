@@ -11,6 +11,7 @@ if [ -z "$SERVICE" ]; then
     echo "Available services:"
     echo "  airflow    - Airflow web UI (http://localhost:8080)"
     echo "  minio      - MinIO console (http://localhost:9001)"
+    echo "  minio-api  - MinIO S3 API (localhost:9000)"
     echo "  spark      - Spark master UI (http://localhost:8080)"
     echo "  jupyter    - Jupyter notebook (http://localhost:8888)"
     echo "  postgres   - PostgreSQL (localhost:5432)"
@@ -25,6 +26,10 @@ case "$SERVICE" in
     minio)
         echo "Port forwarding MinIO Console (http://localhost:9001)..."
         kubectl port-forward -n ldp svc/minio-console 9001:9001
+        ;;
+    minio-api)
+        echo "Port forwarding MinIO S3 API (localhost:9000)..."
+        kubectl port-forward -n ldp svc/minio 9000:9000
         ;;
     spark)
         echo "Port forwarding Spark Master UI (http://localhost:8080)..."

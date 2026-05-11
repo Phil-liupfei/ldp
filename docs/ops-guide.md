@@ -71,6 +71,8 @@ make health
 
 ```bash
 minikube stop
+minikube stop
+minikube start --registry-mirror=https://8v10vizu.mirror.aliyuncs.com
 ```
 
 **效果**：关闭 Minikube 虚拟机，所有服务冻结。下次执行 `minikube start` 即可**原样恢复**，数据不丢失。
